@@ -1,21 +1,25 @@
 package daumtrack.oop.filemonitor;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by sleepbear on 2015. 10. 9..
  */
 public class FileManager {
 
-    private ArrayList<FileMetaData> fileMetaDatas = Lists.newArrayList();
+    private Set<FileMetaData> fileMetaDataSet = Sets.newHashSet();
 
     public void add(FileMetaData fileMetaData) {
-        fileMetaDatas.add(fileMetaData);
+        fileMetaDataSet.add(fileMetaData);
     }
 
     public int getFileCount() {
-        return fileMetaDatas.size();
+        return fileMetaDataSet.size();
+    }
+
+    public void remove(FileMetaData fileMetaData) {
+        fileMetaDataSet.remove(fileMetaData);
     }
 }
