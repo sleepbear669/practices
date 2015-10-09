@@ -1,15 +1,13 @@
 package daumtrack.oop.filemonitor;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 /**
  * Created by sleepbear on 2015. 10. 9..
@@ -39,11 +37,16 @@ public class FileManagerTest {
     @Test
     public void testRemoveOneFile() throws Exception {
         // Given
-        HashSet<FileMetaData> fileMetaDatas = new HashSet<>();
-        ArrayList<Object> objects = new ArrayList<>();
-        // When
+        FileMetaData dummy1 = new FileMetaData("/tmp/test1.txt", 100, 20101010);
+        FileMetaData dummy2 = new FileMetaData("/tmp/test2.txt", 100, 20101010);
+        FileMetaData dummy3 = new FileMetaData("/tmp/test1.txt", 100, 20101010);
 
+        // When
+        fileManager.add(dummy1);
+        fileManager.add(dummy2);
+        fileManager.remove(dummy3);
         // Then
 
+        assertThat(fileManager.getFileCount(), is(1));
     }
 }
