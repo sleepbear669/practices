@@ -70,4 +70,17 @@ public class FileManagerTest {
         // Then
         assertThat(fileManager.getFileCount(), is(3));
     }
+
+    @Test
+    public void testAddSameData() throws Exception {
+        // Given
+
+        // When
+        fileManager.add(dummy1);
+        fileManager.add(sameDummy1);
+
+        // Then
+        assertThat(fileManager.getFileCount(), is(1));
+
+    }
 }
