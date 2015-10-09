@@ -45,13 +45,17 @@ public class FileSearcherTest {
         fileSearcher = new FileSearcher();
 
         for (int i = 0; i < TEST_FILE_NUMBER; i++) {
-            String filePath = String.valueOf(Paths.get(testPath, String.valueOf(UUID.randomUUID())));
-            BufferedWriter writer = new BufferedWriter(
-                    new OutputStreamWriter(
-                            new FileOutputStream(filePath)));
-            writer.write(String.valueOf(UUID.randomUUID()));
-            writer.close();
+            MakeDummyFile(testPath);
         }
+    }
+
+    private void MakeDummyFile(String testPath) throws IOException {
+        String filePath = String.valueOf(Paths.get(testPath, String.valueOf(UUID.randomUUID())));
+        BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(filePath)));
+        writer.write(String.valueOf(UUID.randomUUID()));
+        writer.close();
     }
 
     @After
