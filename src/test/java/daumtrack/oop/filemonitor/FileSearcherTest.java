@@ -5,6 +5,7 @@ import org.junit.*;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -82,7 +83,7 @@ public class FileSearcherTest {
         // Given
 
         // When
-        ArrayList<FileMetaData> search = fileSearcher.search(noneFileDirPath);
+        Set<FileMetaData> search = fileSearcher.search(noneFileDirPath);
         // Then
         assertThat(search.size(), is(0));
     }
@@ -92,7 +93,7 @@ public class FileSearcherTest {
         // Given
 
         // When
-        ArrayList<FileMetaData> search = fileSearcher.search(testPath);
+        Set<FileMetaData> search = fileSearcher.search(testPath);
         // Then
         assertThat(search.size(), is(TEST_FILE_NUMBER));
     }

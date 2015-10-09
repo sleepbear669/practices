@@ -1,19 +1,19 @@
 package daumtrack.oop.filemonitor;
 
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Set;
 
 /**
  * Created by sleepbear on 2015. 10. 9..
  */
 public class FileSearcher {
 
-    private ArrayList<FileMetaData> fileMetaDataList = Lists.newArrayList();
+    private Set<FileMetaData> fileMetaDataList = Sets.newHashSet();
 
-    public ArrayList<FileMetaData> search(String path) throws IOException {
+    public Set<FileMetaData> search(String path) throws IOException {
         searchFile(path);
         return fileMetaDataList;
     }
