@@ -18,7 +18,7 @@ public class FileSearcher {
         return fileMetaDataList;
     }
 
-    public void searchFile(String dirPath) throws IOException {
+    private void searchFile(String dirPath) throws IOException {
         File dir = new File(dirPath);
         scanDirectory(dir, dirPath);
     }
