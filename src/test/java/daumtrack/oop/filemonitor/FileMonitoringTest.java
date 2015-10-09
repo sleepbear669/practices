@@ -16,10 +16,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class FileMonitoringTest {
 
 
-    private String noneFilePath;
+    private static String noneFilePath;
 
     @BeforeClass
-    public void setUp() throws Exception {
+    public static void setUp() throws Exception {
         noneFilePath = "/tmp/test";
 
     }
