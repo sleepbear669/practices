@@ -5,8 +5,14 @@ package daumtrack.oop.filemonitor;
  */
 public class FileMetaData {
 
-    String name;
     String path;
     long size;
     long lastModified;
+
+    public FileMetaData(String path, long size, long lastModified) {
+        this.path = path;
+        this.size = size;
+        this.lastModified = lastModified;
+    }
+
 }

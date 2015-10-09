@@ -22,17 +22,17 @@ public class FileMonitor {
         targetFile = new File(path);
     }
 
-    public void searchFile() {
+    public void searchFile() throws IOException {
         searchDirectory(targetFile, path);
     }
 
-    private void searchDirectory(File file, String absPath) {
+    private void searchDirectory(File file, String absPath) throws IOException {
         File[] files = file.listFiles();
         for (File subFile : files) {
             if (subFile.isDirectory()) {
                 searchDirectory(subFile, absPath);
             } else {
-                logger.debug("relative_path : {} {} ", subFile.getPath(), subFile.length());
+                logger.debug("relative_path : {} {} ", subFile.getName(), subFile.length());
             }
             fileCount++;
         }

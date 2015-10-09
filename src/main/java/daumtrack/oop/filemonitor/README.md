@@ -14,3 +14,5 @@
     - 파일이 삭되제면 'DELEDED file_path' 출력
     - 파일이 변경되면 'MODIFIED file_path' 출력
 
+//TODO
+//파일모니터링은 뭘 하는 놈인가..?
