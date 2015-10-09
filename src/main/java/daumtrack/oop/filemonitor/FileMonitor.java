@@ -32,7 +32,7 @@ public class FileMonitor {
             if (subFile.isDirectory()) {
                 searchDirectory(subFile, absPath);
             } else {
-                logger.debug("relative_path : {} {} ", subFile.getPath().replace(absPath, ""), subFile.length());
+                logger.debug("relative_path : {} {} ", subFile.getPath(), subFile.length());
             }
             fileCount++;
         }
