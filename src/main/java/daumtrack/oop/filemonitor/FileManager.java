@@ -2,6 +2,7 @@ package daumtrack.oop.filemonitor;
 
 import com.google.common.collect.Sets;
 
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -13,6 +14,10 @@ public class FileManager {
 
     public void add(FileMetaData fileMetaData) {
         fileMetaDataSet.add(fileMetaData);
+    }
+
+    public void add(Set<FileMetaData> fileMetaDataSet) {
+        this.fileMetaDataSet.addAll(fileMetaDataSet);
     }
 
     public int getFileCount() {
