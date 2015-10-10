@@ -98,19 +98,19 @@ public class FileManagerTest {
         assertThat(diff.size(), is(0));
 
     }
-//
-//    @Test
-//    public void testDiffFileManagerWhenAdd() throws Exception {
-//        // Given
-//        fileMetaDataSet.add(dummy1);
-//        fileMetaDataSet.add(dummy2);
-//        fileManager.add(fileMetaDataSet);
-//        fileMetaDataSet.add(dummy3);
-//        FileManager addedOneItemFileManager = new FileManager(fileMetaDataSet);
-//        // When
-//        Map<FileMetaData, Diff> diffFileMetaDataMap = fileManager.diff(addedOneItemFileManager);
-//        // Then
-//        assertTrue(diffFileMetaDataMap.containsKey(dummy3));
-//        assertThat(diffFileMetaDataMap.get(dummy3), is(Diff.ADD));
-//    }
+
+    @Test
+    public void testDiffFileManagerWhenAdd() throws Exception {
+        // Given
+        fileMetaDataSet.add(dummy1);
+        fileMetaDataSet.add(dummy2);
+        fileManager.add(fileMetaDataSet);
+        fileMetaDataSet.add(dummy3);
+        FileManager addedOneItemFileManager = new FileManager(fileMetaDataSet);
+        // When
+        Map<FileMetaData, Diff> diffFileMetaDataMap = fileManager.diff(addedOneItemFileManager);
+        // Then
+        assertTrue(diffFileMetaDataMap.containsKey(dummy3));
+        assertThat(diffFileMetaDataMap.get(dummy3), is(Diff.ADD));
+    }
 }
