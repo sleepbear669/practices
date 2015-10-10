@@ -42,10 +42,12 @@ public class FileMonitor {
 
     public static void main(String[] args) throws IOException {
 
-        String path = args[0];
-        FileMonitor fileMonitor = new FileMonitor(path);
-        fileMonitor.searchFile();
-        System.out.println(new File(path).length());
-        System.out.println(fileMonitor.fileCount);
+//        String path = args[0];
+//        FileMonitor fileMonitor = new FileMonitor(path);
+//        fileMonitor.searchFile();
+//        System.out.println(new File(path).length());
+//        System.out.println(fileMonitor.fileCount);
+
+        new FileMonitoring(".").monitoring();
     }
 }

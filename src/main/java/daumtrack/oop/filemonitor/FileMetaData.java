@@ -7,9 +7,9 @@ import com.google.common.base.Objects;
  */
 public class FileMetaData {
 
-    String path;
-    long size;
-    long lastModified;
+    private String path;
+    private long size;
+    private  long lastModified;
 
     public FileMetaData(String path, long size, long lastModified) {
         this.path = path;
@@ -31,5 +31,29 @@ public class FileMetaData {
     @Override
     public int hashCode() {
         return path.hashCode();
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public long getSize() {
+        return size;
+    }
+
+    public void setSize(long size) {
+        this.size = size;
+    }
+
+    public long getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(long lastModified) {
+        this.lastModified = lastModified;
     }
 }

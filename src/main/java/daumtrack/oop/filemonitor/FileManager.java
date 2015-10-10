@@ -27,4 +27,12 @@ public class FileManager {
     public void remove(FileMetaData fileMetaData) {
         fileMetaDataSet.remove(fileMetaData);
     }
+
+    public Set<FileMetaData> getFileMetaDataSet() {
+        return fileMetaDataSet;
+    }
+
+    public void setFileMetaDataSet(Set<FileMetaData> fileMetaDataSet) {
+        this.fileMetaDataSet = fileMetaDataSet;
+    }
 }
