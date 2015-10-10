@@ -9,7 +9,7 @@ public class FileMetaData {
 
     private String path;
     private long size;
-    private  long lastModified;
+    private long lastModified;
 
     public FileMetaData(String path, long size, long lastModified) {
         this.path = path;
@@ -24,6 +24,7 @@ public class FileMetaData {
 
         FileMetaData that = (FileMetaData) o;
 
+        if (lastModified != that.lastModified) return false;
         return path.equals(that.path);
 
     }
