@@ -11,9 +11,10 @@ import java.util.Set;
  */
 public class FileSearcher {
 
-    private Set<FileMetaData> fileMetaDataList = Sets.newHashSet();
+    private Set<FileMetaData> fileMetaDataList;
 
     public Set<FileMetaData> search(String path) throws IOException {
+        fileMetaDataList = Sets.newHashSet();
         searchFile(path);
         return fileMetaDataList;
     }

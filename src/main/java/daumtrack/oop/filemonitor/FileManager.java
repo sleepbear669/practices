@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Stream;
+
+import static daumtrack.oop.filemonitor.FileManager.Diff.MODIFY;
 
 /**
  * Created by sleepbear on 2015. 10. 9..
@@ -54,18 +55,27 @@ public class FileManager {
         final HashMap<FileMetaData, Diff> fileMetaDataDiffMap = Maps.newHashMap();
 
         if (fileMetaDataSet.equals(diffFileMetaDataSet)) {
-            return Maps.newHashMap();
-        }else if (!fileMetaDataSet.containsAll(diffFileMetaDataSet)) {
-            this.setFileMetaDataSet(diffFileMetaDataSet);
-            diffFileMetaDataSet.removeAll(fileMetaDataSet);
-            diffFileMetaDataSet.stream().forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, Diff.ADD));
-            return fileMetaDataDiffMap;
-        }else if(!diffFileMetaDataSet.containsAll(fileMetaDataSet)){
-            this.setFileMetaDataSet(diffFileMetaDataSet);
-            fileMetaDataSet.removeAll(diffFileMetaDataSet);
-            fileMetaDataSet.stream().forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, Diff.DELETE));
             return fileMetaDataDiffMap;
         }
-        return Maps.newHashMap();
+        if (!fileMetaDataSet.equals(diffFileMetaDataSet) && fileMetaDataSet.size() == diffFileMetaDataSet.size()) {
+            setFileMetaDataSet(diffFileMetaDataSet);
+            diffFileMetaDataSet.removeAll(fileMetaDataSet);
+            diffFileMetaDataSet.forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, MODIFY));
+            return fileMetaDataDiffMap;
+
+        }
+        if (!fileMetaDataSet.containsAll(diffFileMetaDataSet)) {
+            setFileMetaDataSet(diffFileMetaDataSet);
+            diffFileMetaDataSet.removeAll(fileMetaDataSet);
+            diffFileMetaDataSet.stream().forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, Diff.ADD));
+        }
+        diffFileMetaDataSet = Sets.newHashSet(diffFileManager.getFileMetaDataSet());
+        fileMetaDataSet = Sets.newHashSet(this.fileMetaDataSet);
+        if(!diffFileMetaDataSet.containsAll(fileMetaDataSet)){
+            setFileMetaDataSet(diffFileMetaDataSet);
+            fileMetaDataSet.removeAll(diffFileMetaDataSet);
+            fileMetaDataSet.stream().forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, Diff.DELETE));
+        }
+        return fileMetaDataDiffMap;
     }
 }

@@ -3,8 +3,9 @@ package daumtrack.oop.filemonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.UUID;
 
 /**
  * FileMonitor.
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class FileMonitor {
 
 
+    private static final int TEST_FILE_NUMBER = 5;
     private String path;
     private File targetFile;
     public int fileCount;
@@ -40,14 +42,20 @@ public class FileMonitor {
 
     static Logger logger = LoggerFactory.getLogger("logger");
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
-//        String path = args[0];
-//        FileMonitor fileMonitor = new FileMonitor(path);
-//        fileMonitor.searchFile();
-//        System.out.println(new File(path).length());
-//        System.out.println(fileMonitor.fileCount);
-
-        new FileMonitoring(".").monitoring();
+        String path = args[0];
+        for (int i = 0; i < TEST_FILE_NUMBER; i++) {
+            MakeDummyFile(path);
+        }
+        new FileMonitoring(path).monitoring();
+    }
+    private static void MakeDummyFile(String testPath) throws IOException {
+        String filePath = String.valueOf(Paths.get(testPath, String.valueOf(UUID.randomUUID())));
+        BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(
+                        new FileOutputStream(filePath)));
+        writer.write(String.valueOf(UUID.randomUUID()));
+        writer.close();
     }
 }
