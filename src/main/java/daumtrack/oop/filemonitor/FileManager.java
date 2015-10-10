@@ -2,7 +2,6 @@ package daumtrack.oop.filemonitor;
 
 import com.google.common.collect.Sets;
 
-import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -11,6 +10,10 @@ import java.util.Set;
 public class FileManager {
 
     private Set<FileMetaData> fileMetaDataSet = Sets.newHashSet();
+
+    public FileManager(Set<FileMetaData> search) {
+        fileMetaDataSet = search;
+    }
 
     public void add(FileMetaData fileMetaData) {
         fileMetaDataSet.add(fileMetaData);

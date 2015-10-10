@@ -14,7 +14,7 @@ public class FileMonitoring {
     private String path;
     private Logger logger = LoggerFactory.getLogger("logger");
 
-    private FileManager fileManager = new FileManager();
+    private FileManager fileManager;
     private FileSearcher fileSearcher = new FileSearcher();
 
 
@@ -23,9 +23,11 @@ public class FileMonitoring {
     }
 
     public void monitoring() throws IOException {
-        Set<FileMetaData> searchFileData = fileSearcher.search(path);
-        fileManager.setFileMetaDataSet(searchFileData);
+        fileManager = new FileManager(fileSearcher.search(path));
         printFileList(fileManager);
+        while (true) {
+            return;
+        }
     }
 
     private void printFileList(FileManager fileManager) {
