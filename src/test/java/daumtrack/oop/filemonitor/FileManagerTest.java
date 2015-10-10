@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Map;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -112,5 +113,24 @@ public class FileManagerTest {
         // Then
         assertTrue(diffFileMetaDataMap.containsKey(dummy3));
         assertThat(diffFileMetaDataMap.get(dummy3), is(Diff.ADD));
+        assertThat(diffFileMetaDataMap.size(), is(1));
+        assertThat(fileManager.getFileCount(), is(3));
+    }
+
+    @Test
+    public void testDiffFileManagerWhenDelete() throws Exception {
+        // Given
+        fileMetaDataSet.add(dummy1);
+        fileMetaDataSet.add(dummy2);
+        fileManager.add(fileMetaDataSet);
+        fileMetaDataSet.remove(sameDummy1);
+        FileManager deletedOneItemFileManager = new FileManager(fileMetaDataSet);
+        // When
+        Map<FileMetaData, Diff> diff = fileManager.diff(deletedOneItemFileManager);
+        // Then
+        assertTrue(diff.containsKey(dummy1));
+        assertThat(diff.get(dummy1), is(Diff.DELETE));
+        assertThat(diff.size(), is(1));
+        assertThat(fileManager.getFileCount(), is(1));
     }
 }
