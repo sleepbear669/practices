@@ -1,7 +1,5 @@
 package daumtrack.oop.filemonitor;
 
-import com.google.common.base.Objects;
-
 /**
  * Created by sleepbear on 2015. 10. 8..
  */

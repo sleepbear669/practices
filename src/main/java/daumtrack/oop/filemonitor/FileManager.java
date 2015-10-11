@@ -1,15 +1,8 @@
 package daumtrack.oop.filemonitor;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import static daumtrack.oop.filemonitor.Diff.*;
 
 /**
  * Created by sleepbear on 2015. 10. 9..
