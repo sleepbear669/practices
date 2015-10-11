@@ -15,7 +15,7 @@ public class LoggerPrinter {
         this.logger = logger;
     }
 
-    public void printDiffFile(Map<FileManager.Diff, Set<String>> diff) {
+    public void printDiffFile(Map<Diff, Set<String>> diff) {
         diff.entrySet().stream()
                 .filter( d -> !d.getValue().isEmpty())
                 .forEach( d -> {
@@ -32,4 +32,6 @@ public class LoggerPrinter {
         }
 
     }
+
+
 }

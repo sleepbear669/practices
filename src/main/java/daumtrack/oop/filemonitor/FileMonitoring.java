@@ -19,7 +19,7 @@ public class FileMonitoring {
 
     private FileSearcher fileSearcher = new FileSearcher();
     private LoggerPrinter loggerPrinter = new LoggerPrinter(LoggerFactory.getLogger("logger"));
-
+    private ChangeDiffFileFinder changeDiffFileFinder = new ChangeDiffFileFinder();
     public FileMonitoring(String path) {
         this.path = path;
     }
@@ -36,7 +36,7 @@ public class FileMonitoring {
 
     private Map<Diff, Set<String>> getDifferenceMap(FileManager fileManager) throws IOException {
         FileManager newFileManager = new FileManager(fileSearcher.search(path));
-        Map<Diff, Set<String>> diff = fileManager.diffFileTo(newFileManager);
+        Map<Diff, Set<String>> diff = changeDiffFileFinder.diffFileTo(fileManager, newFileManager);
         fileManager.setFileMetaDataSet( newFileManager.getFileMetaDataSet());
         return diff;
     }
