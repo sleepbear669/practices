@@ -17,8 +17,6 @@ public class FileMonitor {
 
     private static final int TEST_FILE_NUMBER = 5;
 
-    static Logger logger = LoggerFactory.getLogger("logger");
-
     public static void main(String[] args) throws IOException, InterruptedException {
 
         String path = args[0];

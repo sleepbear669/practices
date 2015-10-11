@@ -16,44 +16,29 @@ import static java.lang.Thread.sleep;
 public class FileMonitoring {
 
     private String path;
-    private Logger logger = LoggerFactory.getLogger("logger");
 
-    private FileManager fileManager;
     private FileSearcher fileSearcher = new FileSearcher();
-
+    private LoggerPrinter loggerPrinter = new LoggerPrinter(LoggerFactory.getLogger("logger"));
 
     public FileMonitoring(String path) {
         this.path = path;
     }
 
     public void monitoring() throws IOException, InterruptedException {
-        fileManager = new FileManager(fileSearcher.search(path));
-        printFileList(fileManager);
+        FileManager fileManager = new FileManager(fileSearcher.search(path));
+        loggerPrinter.printFileList(fileManager);
         while (true) {
-            FileManager diffFileManager = new FileManager(fileSearcher.search(path));
-            Map<Diff, Set<String>> diff = fileManager.diffFileTo(diffFileManager);
-            printDiffFile(diff);
+            Map<Diff, Set<String>> diff = getDifferenceMap(fileManager);
+            loggerPrinter.printDiffFile(diff);
             sleep(1000);
-            fileManager = diffFileManager;
         }
     }
 
-    private void printDiffFile(Map<Diff, Set<String>> diff) {
-        diff.entrySet().stream()
-        .filter( d -> !d.getValue().isEmpty())
-        .forEach( d -> {
-            for (String path : d.getValue()) {
-                logger.debug("{} : {} ", d.getKey(), path);
-            }
-        });
-
-    }
-
-    private void printFileList(FileManager fileManager) {
-        for (FileMetaData fileMetaData : fileManager.getFileMetaDataSet()) {
-            logger.debug("{} : {} ", fileMetaData.getPath(), fileMetaData.getSize());
-        }
-
+    private Map<Diff, Set<String>> getDifferenceMap(FileManager fileManager) throws IOException {
+        FileManager newFileManager = new FileManager(fileSearcher.search(path));
+        Map<Diff, Set<String>> diff = fileManager.diffFileTo(newFileManager);
+        fileManager.setFileMetaDataSet( newFileManager.getFileMetaDataSet());
+        return diff;
     }
 
     public String getPath() {

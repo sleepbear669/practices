@@ -38,23 +38,7 @@ public class FileMetaData {
         return path;
     }
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-
     public long getSize() {
         return size;
-    }
-
-    public void setSize(long size) {
-        this.size = size;
-    }
-
-    public long getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(long lastModified) {
-        this.lastModified = lastModified;
     }
 }
