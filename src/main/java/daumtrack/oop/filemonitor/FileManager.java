@@ -9,18 +9,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static daumtrack.oop.filemonitor.FileManager.Diff.*;
+import static daumtrack.oop.filemonitor.Diff.*;
 
 /**
  * Created by sleepbear on 2015. 10. 9..
  */
 public class FileManager {
 
-    enum Diff {
-        ADD , DELETE, MODIFY
-    }
-
-    private Set<FileMetaData> fileMetaDataSet = Sets.newHashSet();
+    private Set<FileMetaData> fileMetaDataSet;
 
     public FileManager(Set<FileMetaData> search) {
         fileMetaDataSet = Sets.newHashSet(search);
