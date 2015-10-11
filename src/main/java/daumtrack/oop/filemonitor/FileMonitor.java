@@ -45,6 +45,7 @@ public class FileMonitor {
     public static void main(String[] args) throws IOException, InterruptedException {
 
         String path = args[0];
+        new File(path).mkdirs();
         for (int i = 0; i < TEST_FILE_NUMBER; i++) {
             MakeDummyFile(path);
         }

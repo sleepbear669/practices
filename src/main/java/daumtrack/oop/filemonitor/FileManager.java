@@ -7,8 +7,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
-import static daumtrack.oop.filemonitor.FileManager.Diff.MODIFY;
+import static daumtrack.oop.filemonitor.FileManager.Diff.*;
 
 /**
  * Created by sleepbear on 2015. 10. 9..
@@ -45,37 +46,41 @@ public class FileManager {
         return fileMetaDataSet;
     }
 
-    public void setFileMetaDataSet(Set<FileMetaData> fileMetaDataSet) {
-        this.fileMetaDataSet = Sets.newHashSet(fileMetaDataSet);
-    }
-
-    public Map<FileMetaData, Diff> diff(FileManager diffFileManager) {
+    public Map<Diff, Set<String>> diffFileTo(FileManager diffFileManager) {
         Set<FileMetaData> diffFileMetaDataSet = Sets.newHashSet(diffFileManager.getFileMetaDataSet());
-        HashSet<FileMetaData> fileMetaDataSet = Sets.newHashSet(this.fileMetaDataSet);
-        final HashMap<FileMetaData, Diff> fileMetaDataDiffMap = Maps.newHashMap();
+        Set<FileMetaData> olderFileMetaDataSet = Sets.newHashSet(fileMetaDataSet);
 
-        if (fileMetaDataSet.equals(diffFileMetaDataSet)) {
-            return fileMetaDataDiffMap;
-        }
-        if (!fileMetaDataSet.equals(diffFileMetaDataSet) && fileMetaDataSet.size() == diffFileMetaDataSet.size()) {
-            setFileMetaDataSet(diffFileMetaDataSet);
-            diffFileMetaDataSet.removeAll(fileMetaDataSet);
-            diffFileMetaDataSet.forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, MODIFY));
-            return fileMetaDataDiffMap;
+        Set<FileMetaData> deletedFileSet = differenceOfSets(olderFileMetaDataSet, diffFileMetaDataSet);
+        Set<String> deletedFilePathSet = getFilePathSet(deletedFileSet);
 
-        }
-        if (!fileMetaDataSet.containsAll(diffFileMetaDataSet)) {
-            setFileMetaDataSet(diffFileMetaDataSet);
-            diffFileMetaDataSet.removeAll(fileMetaDataSet);
-            diffFileMetaDataSet.stream().forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, Diff.ADD));
-        }
-        diffFileMetaDataSet = Sets.newHashSet(diffFileManager.getFileMetaDataSet());
-        fileMetaDataSet = Sets.newHashSet(this.fileMetaDataSet);
-        if(!diffFileMetaDataSet.containsAll(fileMetaDataSet)){
-            setFileMetaDataSet(diffFileMetaDataSet);
-            fileMetaDataSet.removeAll(diffFileMetaDataSet);
-            fileMetaDataSet.stream().forEach(fileMetaData -> fileMetaDataDiffMap.put(fileMetaData, Diff.DELETE));
-        }
-        return fileMetaDataDiffMap;
+        Set<FileMetaData> addedFileSet = differenceOfSets(diffFileMetaDataSet, olderFileMetaDataSet);
+        Set<String> addedFilePathSet = getFilePathSet(addedFileSet);
+
+        Set<String> modifiedFileSet = addedFilePathSet.stream()
+                .filter(deletedFilePathSet::contains)
+                .collect(Collectors.toSet());
+
+        addedFilePathSet.removeAll(modifiedFileSet);
+        deletedFilePathSet.removeAll(modifiedFileSet);
+
+        HashMap<Diff, Set<String>> fileMetaDataDiffFileMap = Maps.newHashMap();
+        fileMetaDataDiffFileMap.put(ADD, addedFilePathSet);
+        fileMetaDataDiffFileMap.put(DELETE, deletedFilePathSet);
+        fileMetaDataDiffFileMap.put(MODIFY, modifiedFileSet);
+
+        return fileMetaDataDiffFileMap;
     }
+
+    private Set<String> getFilePathSet(Set<FileMetaData> fileMetaDataSet) {
+        return fileMetaDataSet.stream()
+                    .map(FileMetaData::getPath)
+                    .collect(Collectors.toSet());
+    }
+
+    private Set<FileMetaData> differenceOfSets(Set<FileMetaData> rightSet, Set<FileMetaData> leftSet) {
+        HashSet<FileMetaData> operationSet = Sets.newHashSet(rightSet);
+        operationSet.removeAll(leftSet);
+        return operationSet;
+    }
+
 }

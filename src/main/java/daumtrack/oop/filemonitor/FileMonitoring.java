@@ -30,16 +30,23 @@ public class FileMonitoring {
         fileManager = new FileManager(fileSearcher.search(path));
         printFileList(fileManager);
         while (true) {
-            Map<FileMetaData, Diff> diff = fileManager.diff(new FileManager(fileSearcher.search(path)));
-            printDiff(diff);
+            FileManager diffFileManager = new FileManager(fileSearcher.search(path));
+            Map<Diff, Set<String>> diff = fileManager.diffFileTo(diffFileManager);
+            printDiffFile(diff);
             sleep(1000);
+            fileManager = diffFileManager;
         }
     }
 
-    private void printDiff(Map<FileMetaData, Diff> diff) {
-        for (Map.Entry<FileMetaData, Diff> f : diff.entrySet()) {
-            logger.debug("{} : {} ", f.getKey().getPath(), f.getValue());
-        }
+    private void printDiffFile(Map<Diff, Set<String>> diff) {
+        diff.entrySet().stream()
+        .filter( d -> !d.getValue().isEmpty())
+        .forEach( d -> {
+            for (String path : d.getValue()) {
+                logger.debug("{} : {} ", d.getKey(), path);
+            }
+        });
+
     }
 
     private void printFileList(FileManager fileManager) {
