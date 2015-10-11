@@ -16,29 +16,6 @@ public class FileMonitor {
 
 
     private static final int TEST_FILE_NUMBER = 5;
-    private String path;
-    private File targetFile;
-    public int fileCount;
-    public FileMonitor(String path) {
-        this.path = path;
-        targetFile = new File(path);
-    }
-
-    public void searchFile() throws IOException {
-        searchDirectory(targetFile, path);
-    }
-
-    private void searchDirectory(File file, String absPath) throws IOException {
-        File[] files = file.listFiles();
-        for (File subFile : files) {
-            if (subFile.isDirectory()) {
-                searchDirectory(subFile, absPath);
-            } else {
-                logger.debug("relative_path : {} {} ", subFile.getName(), subFile.length());
-            }
-            fileCount++;
-        }
-    }
 
     static Logger logger = LoggerFactory.getLogger("logger");
 
