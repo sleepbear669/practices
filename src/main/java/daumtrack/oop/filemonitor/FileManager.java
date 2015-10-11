@@ -46,20 +46,20 @@ public class FileManager {
         return fileMetaDataSet;
     }
 
+    public void setFileMetaDataSet(Set<FileMetaData> fileMetaDataSet) {
+        this.fileMetaDataSet = fileMetaDataSet;
+    }
+
     public Map<Diff, Set<String>> diffFileTo(FileManager diffFileManager) {
         Set<FileMetaData> diffFileMetaDataSet = Sets.newHashSet(diffFileManager.getFileMetaDataSet());
         Set<FileMetaData> olderFileMetaDataSet = Sets.newHashSet(fileMetaDataSet);
 
-        Set<FileMetaData> deletedFileSet = differenceOfSets(olderFileMetaDataSet, diffFileMetaDataSet);
-        Set<String> deletedFilePathSet = getFilePathSet(deletedFileSet);
-
-        Set<FileMetaData> addedFileSet = differenceOfSets(diffFileMetaDataSet, olderFileMetaDataSet);
-        Set<String> addedFilePathSet = getFilePathSet(addedFileSet);
+        Set<String> deletedFilePathSet = differenceOfSetsOfPath(olderFileMetaDataSet, diffFileMetaDataSet);
+        Set<String> addedFilePathSet = differenceOfSetsOfPath(diffFileMetaDataSet, olderFileMetaDataSet);
 
         Set<String> modifiedFileSet = addedFilePathSet.stream()
                 .filter(deletedFilePathSet::contains)
                 .collect(Collectors.toSet());
-
         addedFilePathSet.removeAll(modifiedFileSet);
         deletedFilePathSet.removeAll(modifiedFileSet);
 
@@ -71,16 +71,16 @@ public class FileManager {
         return fileMetaDataDiffFileMap;
     }
 
-    private Set<String> getFilePathSet(Set<FileMetaData> fileMetaDataSet) {
-        return fileMetaDataSet.stream()
-                    .map(FileMetaData::getPath)
-                    .collect(Collectors.toSet());
-    }
-
-    private Set<FileMetaData> differenceOfSets(Set<FileMetaData> rightSet, Set<FileMetaData> leftSet) {
+    private Set<String> differenceOfSetsOfPath(Set<FileMetaData> rightSet, Set<FileMetaData> leftSet) {
         HashSet<FileMetaData> operationSet = Sets.newHashSet(rightSet);
         operationSet.removeAll(leftSet);
-        return operationSet;
+        return getFilePathSet(operationSet);
+    }
+
+    private Set<String> getFilePathSet(Set<FileMetaData> fileMetaDataSet) {
+        return fileMetaDataSet.stream()
+                .map(FileMetaData::getPath)
+                .collect(Collectors.toSet());
     }
 
 }
