@@ -20,8 +20,8 @@ public class ChangeDiffFileFinder {
         Set<FileMetaData> diffFileMetaDataSet = Sets.newHashSet(diffFileManager.getFileMetaDataSet());
         Set<FileMetaData> olderFileMetaDataSet = Sets.newHashSet(olderFileManager.getFileMetaDataSet());
 
-        Set<String> deletedFilePathSet = differenceOfSetsOfPath(olderFileMetaDataSet, diffFileMetaDataSet);
-        Set<String> addedFilePathSet = differenceOfSetsOfPath(diffFileMetaDataSet, olderFileMetaDataSet);
+        Set<String> deletedFilePathSet = pathsOfDifferenceOfSets(olderFileMetaDataSet, diffFileMetaDataSet);
+        Set<String> addedFilePathSet = pathsOfDifferenceOfSets(diffFileMetaDataSet, olderFileMetaDataSet);
 
         Set<String> modifiedFileSet = addedFilePathSet.stream()
                 .filter(deletedFilePathSet::contains)
@@ -37,7 +37,7 @@ public class ChangeDiffFileFinder {
         return fileMetaDataDiffFileMap;
     }
 
-    private Set<String> differenceOfSetsOfPath(Set<FileMetaData> rightSet, Set<FileMetaData> leftSet) {
+    private Set<String> pathsOfDifferenceOfSets(Set<FileMetaData> rightSet, Set<FileMetaData> leftSet) {
         HashSet<FileMetaData> operationSet = Sets.newHashSet(rightSet);
         operationSet.removeAll(leftSet);
         return getFilePathSet(operationSet);
